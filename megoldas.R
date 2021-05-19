@@ -51,6 +51,7 @@ ggplot(hat_teljes, aes(fill = factor(year), x= country, y=suicides.100k.pop )) +
 dev.off()
 
 #6.abra
+idosor_gen_orszag <- aggregate(suicides.100k.pop ~ country+generation, data=data, mean, na.rm=T)
 
 hat_teljes2 <- idosor_gen_orszag[idosor_gen_orszag$country %in% hatorszag,]
 hat_teljes2
@@ -59,6 +60,13 @@ ggplot(hat_teljes2, aes(fill = factor(generation), x= country, y=suicides.100k.p
 dev.off()
 
 #összerakás
+idosor_ffi_plot <- ggplot(idosor_nemek[idosor_nemek$sex == "male",], aes(x = year, y = suicides.100k.pop, colour = country )) + geom_line() + scale_color_discrete(name="ország") + ggtitle("Idősor férfiak") + xlab ("év") + ylab ("öngyilkosság/100.000 fő") + theme(legend.position = "none")
+idosor_gen_plot <-  ggplot(idosor_gen, aes(x = year, y= suicides.100k.pop, colour = generation)) + geom_line() + scale_color_discrete(name="generációk") + ggtitle("Idősor generációk") + xlab ("év") + ylab ("öngyilkosság/100.000 fő") + theme(legend.position = "none")
+idosor_no_plot <-  ggplot(idosor_nemek[idosor_nemek$sex == "female",], aes(x = year, y = suicides.100k.pop, colour = country )) + geom_line() + scale_color_discrete(name="ország") + ggtitle("Idősor nők") + xlab ("év") + ylab ("öngyilkosság/100.000 fő") + theme(legend.position = "none")
+hatorszag_evek_plot <- ggplot(hat_teljes, aes(fill = factor(year), x= country, y=suicides.100k.pop )) + geom_col(position = "dodge")  + scale_fill_discrete(name = "év") + ggtitle("6 ország év") + xlab ("ország") + ylab ("öngyilkosság/100.000 fő") + theme(legend.position = "none")
+hatorszag_gen_plot <- ggplot(hat_teljes2, aes(fill = factor(generation), x= country, y=suicides.100k.pop )) + geom_col(position = "dodge")+ scale_fill_discrete(name="generáció") + ggtitle("6 ország generáció") + xlab ("ország") + ylab ("öngyilkosság/100.000 fő") + theme(legend.position = "none")
+idosor_plot <- ggplot(idosor_alt, aes(x = year, y = suicides.100k.pop, colour = country)) + geom_line() + scale_color_discrete(name="ország") + ggtitle("Idősor") + xlab ("év") + ylab ("öngyilkosság/100.000 fő") + theme(legend.position = "none")
+
 install.packages("gridExtra")
 library("gridExtra")
 png(file = "osszes.png", width = 2048, height = 768)
